@@ -1,0 +1,20 @@
+language: node_js
+node_js: '8.9'
+script:
+  - npm run build
+  - travis_retry npm run travis
+sudo: false
+dist: trusty
+cache:
+  directories:
+    - node_modules
+env:
+  matrix:
+    - BROWSER=mac-chrome-latest
+    - BROWSER=mac-firefox-latest
+    - BROWSER=mac-safari-latest
+    - BROWSER=windows-chrome-latest
+    - BROWSER=windows-firefox-latest
+    - BROWSER=windows-edge-latest
+    - BROWSER=ios-latest
+    - BROWSER=android-latest
