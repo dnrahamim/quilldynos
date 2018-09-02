@@ -38,7 +38,8 @@
     "extend": "^3.0.2",
     "mathjs": "^5.1.1",
     "parchment": "quilljs/parchment#e517d08719e19138651ea230c0a5daf8facfe8b8",
-    "quill-delta": "^3.6.3"
+    "quill-delta": "^3.6.3",
+    "quill-mention": "^2.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
