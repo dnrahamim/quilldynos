@@ -49,9 +49,11 @@ class SnowTooltip extends BaseTooltip {
           );
           if (link != null) {
             this.linkRange = new Range(range.index - offset, link.length());
-            const preview = LinkBlot.formats(link.domNode);
-            this.preview.textContent = 'buttsects';//preview;
-            this.preview.setAttribute('href', preview);
+            // grab the the url of the Link Blot's
+            // inner dom node <a> (perhaps http://www.google.com/)
+            const url = LinkBlot.formats(link.domNode);
+            this.preview.textContent = url; // 'this.preview' the tooltip's text input value
+            this.preview.setAttribute('href', url); // set the href so it's clickable for the user
             this.show();
             this.position(this.quill.getBounds(this.linkRange));
             return;

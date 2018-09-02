@@ -7,6 +7,7 @@ import Picker from '../ui/picker';
 import Tooltip from '../ui/tooltip';
 import Expression from '../formats/expression';
 
+const math = require('mathjs');
 const ALIGNS = [false, 'center', 'right', 'justify'];
 
 const COLORS = [
@@ -214,7 +215,8 @@ class BaseTooltip extends Tooltip {
     this.hide();
   }
 
-  edit(mode = 'link', preview = null) {
+  edit(mode = 'link', preview = null, blot = null) {
+    this.currentlyEditingBlot = blot;
     this.root.classList.remove('ql-hidden');
     this.root.classList.add('ql-editing');
     if (preview != null) {
@@ -279,23 +281,33 @@ class BaseTooltip extends Tooltip {
         break;
       }
       case 'expression': {
-        if (!value) break;
-        const range = this.quill.getSelection(true);
-        if (range != null) {
-          const index = range.index + range.length;
-          this.quill.insertEmbed(
-            index, // 20
-            'expression', // expression
-            value, // 2*(3+4)
-            Emitter.sources.USER, // user
-          );
-          this.quill.insertText(index + 1, ' ', Emitter.sources.USER);
-          this.quill.setSelection(index + 2, Emitter.sources.USER);
+        if(this.currentlyEditingBlot) {
+          let domNode = this.currentlyEditingBlot.domNode;
+          let contentNode = this.currentlyEditingBlot.contentNode;
+          const evaled = math.eval(value);
+          domNode.setAttribute('data-value', value);
+          domNode.setAttribute('style', 'color: blue;');
+          contentNode.innerHTML = `${evaled}`;
+        } else {
+          if (!value) break;
+          const range = this.quill.getSelection(true);
+          if (range != null) {
+            const index = range.index + range.length;
+            this.quill.insertEmbed(
+              index, // 20
+              'expression', // expression
+              value, // 2*(3+4)
+              Emitter.sources.USER, // user
+            );
+            this.quill.insertText(index + 1, ' ', Emitter.sources.USER);
+            this.quill.setSelection(index + 2, Emitter.sources.USER);
+          }
         }
         break;
       }
       default:
     }
+    this.currentlyEditingBlot = null;
     this.textbox.value = '';
     this.hide();
   }
