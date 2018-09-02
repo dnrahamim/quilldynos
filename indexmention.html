@@ -1,41 +1,24 @@
-<!doctype html>
 
+<!DOCTYPE html>
 <html lang="en">
+  <title>Quill Test</title>
+  <link href="./quill/dist/quill.snow.css" rel="stylesheet">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
+  <link href="modules/quill.mention.min.css" rel="stylesheet">
+  
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js" type="text/javascript"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" type="text/javascript"></script>
 
-<head>
-  <meta charset="utf-8">
-  <title>Quill Mention Demo</title>
-  <meta name="description" content="Quill Mention Demo">
-  <link href="https://cdn.quilljs.com/1.3.4/quill.snow.css" rel="stylesheet">
-  <link href="quill.mention.min.css" rel="stylesheet">
-</head>
-
-<body>
-  <h1>Quill Mention Demo</h1>
-
-  <!-- Create the editor container -->
-  <div id="editor"></div>
-
-  <!-- Include the Quill library -->
   <script src="https://cdn.quilljs.com/1.3.4/quill.js"></script>
-  <script src="quill.mention.min.js"></script>
-  <style>
-    body {
-      font-size: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    }
+  <script src="modules/Counter.js"></script>
+  <script src="modules/quill.mention.min.js"></script>
+  
+  <div id="editor">
+    hi <b>how</b> are you
+  </div>
+  <div id="counter">0</div>
 
-    .ql-editor {
-      border: 1px solid #A3A3A3;
-      border-radius: 6px;
-    }
-
-    .ql-editor:focus {
-      border: 1px solid #025FAE;
-    }
-  </style>
-  <!-- Initialize Quill editor -->
-  <script>
+  <script type="text/javascript">
     const atValues = [
       { "id": "5a97b2a402de91c5b6c3e8a4", "value": "Josie Rice" },
       { "id": "5a97b2a464a8ff2d0996d2ef", "value": "Elva Bowman" },
@@ -46,16 +29,34 @@
       { "id": "5a97b2a4436c2c9acc6b5ad2", "value": "Pablo Escobar" },
       { "id": "5a97b2a4436c2c9acc6b5ad3", "value": "Richard Smith" }
     ];
-
     const hashValues = [
       { "id": "5a97b2a402de91c5b6c3e8a5", "value": "field1" },
       { "id": "5a97b2a464a8ff2d0996d2eg", "value": "field2" },
       { "id": "5a97b2a4ecb768a2092a298c", "value": "field3" },
       { "id": "5a97b2a418b984d2aff97658", "value": "field4" },
     ]
-    
-    var quill = new Quill('#editor', {
+
+    // Implement and register module
+    Quill.register('modules/counter', Counter);
+
+    $(document).ready(function() {
+      var quill = new Quill('#editor', {
       modules: {
+        counter: {
+          container: '#counter',
+          unit: 'char'
+        },
+        'toolbar': [
+          [{ 'font': [] }, { 'size': [] }],
+          [ 'bold', 'italic', 'underline', 'strike' ],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'script': 'super' }, { 'script': 'sub' }],
+          [{ 'header': '1' }, { 'header': '2' }, 'blockquote'],
+          [{ 'list': 'ordered' }, { 'list': 'bullet'}, { 'indent': '-1' }, { 'indent': '+1' }],
+          [ 'direction', { 'align': [] }],
+          [ 'link', 'image', 'video', 'formula', 'expression', 'field'],
+          [ 'clean' ]
+        ],
         mention: {
           allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
           mentionDenotationChars: ["@", "#"],
@@ -63,25 +64,25 @@
             let values;
 
             if (mentionChar === "@") {
-              values = atValues;
+            values = atValues;
             } else {
-              values = hashValues;
+            values = hashValues;
             }
             
             if (searchTerm.length === 0) {
-              renderList(values, searchTerm);
+            renderList(values, searchTerm);
             } else {
-              const matches = [];
-              for (i = 0; i < values.length; i++)
-                if (~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())) matches.push(values[i]);
-              renderList(matches, searchTerm);
+            const matches = [];
+            for (i = 0; i < values.length; i++)
+              if (~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())) matches.push(values[i]);
+            renderList(matches, searchTerm);
             }
           },
         },
-      }
+      },
+      theme: 'snow'
+      });
+      window.quill = quill;
     });
   </script>
-
-</body>
-
 </html>
