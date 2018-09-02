@@ -7,7 +7,6 @@ class Expression extends Embed {
     const node = super.create(value);
     const evaled = math.eval(value);
     let thisarg = this;
-    this.node = node;
     node.innerHTML = `${evaled}`;
     node.setAttribute('data-value', value);
     node.setAttribute('style', 'color: blue;');

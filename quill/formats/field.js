@@ -1,18 +1,14 @@
 import Embed from '../blots/embed';
 
 class Field extends Embed {
-  static create(value) {
-    console.log('bagel');
-    const node = super.create(value);
-    node.innerHTML = `${value}`;
-    node.setAttribute('data-value', value);
-    node.setAttribute('style', 'color: red; font-weight: bold');
 
-    node.addEventListener('click', function(e) {
-      // e.target should always be node since it is attached to node
-      let blot = Quill.find(node);
-      alert('field has been clicked')
-    });
+  constructor(scroll, domnode) {
+    super(scroll, domnode);
+    this.constructSelectBox(domnode);
+  }
+
+  static create(value) {
+    const node = super.create(value);
     return node;
   }
 
