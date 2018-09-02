@@ -5,7 +5,6 @@ import ColorPicker from '../ui/color-picker';
 import IconPicker from '../ui/icon-picker';
 import Picker from '../ui/picker';
 import Tooltip from '../ui/tooltip';
-import Expression from '../formats/expression';
 
 const math = require('mathjs');
 const ALIGNS = [false, 'center', 'right', 'justify'];
@@ -157,6 +156,20 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
   modules: {
     toolbar: {
       handlers: {
+        field() {
+          const range = this.quill.getSelection(true);
+          if (range != null) {
+            const index = range.index + range.length;
+            this.quill.insertEmbed(
+              index,
+              'field',
+              'bagelcake',
+              Emitter.sources.USER,
+            );
+            this.quill.insertText(index + 1, ' ', Emitter.sources.USER);
+            this.quill.setSelection(index + 2, Emitter.sources.USER);
+          }
+        },
         expression() {
           this.quill.theme.tooltip.edit('expression');
         },

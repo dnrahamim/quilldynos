@@ -24,6 +24,7 @@ import Script from './formats/script';
 import Strike from './formats/strike';
 import Underline from './formats/underline';
 
+import Field from './formats/field';
 import Expression from './formats/expression';
 import Formula from './formats/formula';
 import Image from './formats/image';
@@ -89,6 +90,7 @@ Quill.register(
     'formats/strike': Strike,
     'formats/underline': Underline,
 
+    'formats/field': Field,
     'formats/expression': Expression,
     'formats/formula': Formula,
     'formats/image': Image,

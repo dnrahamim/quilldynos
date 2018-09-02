@@ -12,6 +12,7 @@ import directionLeftToRightIcon from '../assets/icons/direction-ltr.svg';
 import directionRightToLeftIcon from '../assets/icons/direction-rtl.svg';
 import formulaIcon from '../assets/icons/formula.svg';
 import expressionIcon from '../assets/icons/expression.svg';
+import fieldIcon from '../assets/icons/field.svg';
 import headerIcon from '../assets/icons/header.svg';
 import header2Icon from '../assets/icons/header-2.svg';
 import italicIcon from '../assets/icons/italic.svg';
@@ -49,6 +50,7 @@ module.exports = {
   },
   formula: formulaIcon,
   expression: expressionIcon,
+  field: fieldIcon,
   header: {
     '1': headerIcon,
     '2': header2Icon,
